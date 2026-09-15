@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechKeep — Shoes, Clothing & Accessories</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="top-bar">
+        FREE SHIPPING ON ORDERS OVER ₱3,000
+    </div>
+
+    <header class="site-header">
+        <a class="brand" href="#">TechKeep<span>®</span></a>
+
+        <nav class="main-nav">
+            <a href="#products">NEW ARRIVALS</a>
+            <a href="#products">MEN</a>
+            <a href="#products">WOMEN</a>
+            <a href="#products">SHOES</a>
+            <a href="#products">CLOTHING</a>
+            <a href="#products">ACCESSORIES</a>
+            <a class="sale-link" href="#products">SALE</a>
+        </nav>
+
+        <div class="header-actions">
+            <label class="header-search">
+                <span>⌕</span>
+                <input id="searchInput" type="text" placeholder="Search products...">
+            </label>
+
+            <button id="cartButton" class="cart-button">
+                BAG <span id="cartCount">0</span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">THE NEW EVERYDAY</p>
+                <h1>STEP INTO<br><em>YOUR STYLE.</em></h1>
+                <p class="hero-text">
+                    Clothing, sneakers, and accessories made for
+                    everyday movement.
+                </p>
+                <a href="#products" class="hero-button">SHOP NOW <span>→</span></a>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-shape shape-one">SHOES</div>
+                <div class="hero-shape shape-two">STYLE</div>
+                <div class="hero-caption">SS26 / COLLECTION</div>
+            </div>
+        </section>
+
+        <section class="category-strip">
+            <a href="#products">
+                <span class="category-number">01</span>
+                <strong>SHOES</strong>
+                <small>TRAINERS · SNEAKERS</small>
+                <span class="category-arrow">↗</span>
+            </a>
+            <a href="#products">
+                <span class="category-number">02</span>
+                <strong>CLOTHING</strong>
+                <small>TEES · HOODIES · BOTTOMS</small>
+                <span class="category-arrow">↗</span>
+            </a>
+            <a href="#products">
+                <span class="category-number">03</span>
+                <strong>ACCESSORIES</strong>
+                <small>BAGS · CAPS · MORE</small>
+                <span class="category-arrow">↗</span>
+            </a>
+        </section>
+
+        <section id="products" class="shop-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">CURATED FOR YOU</p>
+                    <h2>FEATURED PRODUCTS</h2>
+                </div>
+                <p class="section-note">FRESH PICKS / EVERYDAY ESSENTIALS</p>
+            </div>
+
+            <div class="shop-controls">
+                <div class="filter-pills">
+                    <button class="filter-label" type="button" onclick="document.getElementById('categoryFilter').value='All'; filterProducts();">ALL</button>
+                    <button class="filter-label" type="button" onclick="document.getElementById('categoryFilter').value='Shoes'; filterProducts();">SHOES</button>
+                    <button class="filter-label" type="button" onclick="document.getElementById('categoryFilter').value='Clothing'; filterProducts();">CLOTHING</button>
+                    <button class="filter-label" type="button" onclick="document.getElementById('categoryFilter').value='Accessories'; filterProducts();">ACCESSORIES</button>
+                </div>
+
+                <select id="categoryFilter" class="category-filter" aria-label="Filter by category">
+                    <option value="All">All Products</option>
+                    <option value="Shoes">Shoes</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Accessories">Accessories</option>
+                </select>
+            </div>
+
+            <p id="loading" class="loading">Loading products...</p>
+            <section id="productList" class="products"></section>
+        </section>
+
+        <section class="promo-banner">
+            <div>
+                <p class="eyebrow">BUILT FOR EVERY DAY</p>
+                <h2>ONE STORE.<br>EVERY PART OF YOUR FIT.</h2>
+            </div>
+            <a href="#products">EXPLORE ALL →</a>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-brand">TechKeep®</div>
+        <div>
+            <p>SHOES · CLOTHING · ACCESSORIES</p>
+            <p class="footer-muted">A student e-commerce project.</p>
+        </div>
+    </footer>
+
+    <!-- Cart -->
+    <div id="cartModal" class="modal hidden">
+        <div class="modal-content">
+            <button id="closeCart" class="close">×</button>
+
+            <p class="eyebrow">YOUR SELECTION</p>
+            <h2>SHOPPING BAG</h2>
+
+            <div id="cartItems"></div>
+
+            <div class="cart-summary">
+                <span>TOTAL</span>
+                <strong>₱<span id="cartTotal">0</span></strong>
+            </div>
+
+            <button id="checkoutButton" class="primary">
+                PROCEED TO CHECKOUT →
+            </button>
+        </div>
+    </div>
+
+    <!-- Checkout -->
+    <div id="checkoutModal" class="modal hidden">
+        <div class="modal-content checkout-content">
+            <button id="closeCheckout" class="close">×</button>
+
+            <p class="eyebrow">ALMOST THERE</p>
+            <h2>CHECKOUT</h2>
+
+            <form id="checkoutForm">
+                <label for="customerName">FULL NAME</label>
+                <input type="text" id="customerName" required>
+
+                <label for="customerEmail">EMAIL</label>
+                <input type="email" id="customerEmail" required>
+
+                <label for="customerAddress">DELIVERY ADDRESS</label>
+                <textarea id="customerAddress" required></textarea>
+
+                <label for="paymentMethod">PAYMENT METHOD</label>
+                <select id="paymentMethod" required>
+                    <option value="">Select payment</option>
+                    <option value="Cash on Delivery">Cash on Delivery</option>
+                    <option value="GCash">GCash</option>
+                </select>
+
+                <button type="submit" class="primary">
+                    PLACE ORDER →
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

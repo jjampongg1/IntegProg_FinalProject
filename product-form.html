@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TECHKEEP — Add Product</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f4f1;
+    color:#111;
+    padding:40px 20px
+}
+
+.wrap{
+    max-width:1000px;
+    margin:auto
+}
+
+.back{
+    display:inline-block;
+    margin-bottom:25px;
+    color:#111;
+    font-weight:bold;
+    text-decoration:none;
+    font-size:13px
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    gap:20px
+}
+
+.card{
+    background:#fff;
+    border:1px solid #ddd;
+    padding:32px
+}
+
+h1{
+    font-size:38px;
+    letter-spacing:-2px;
+    margin-bottom:8px
+}
+
+h2{
+    font-size:20px;
+    margin-bottom:18px
+}
+
+.intro{
+    color:#777;
+    line-height:1.5;
+    margin-bottom:25px
+}
+
+form{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px
+}
+
+.full{
+    grid-column:1/-1
+}
+
+label{
+    display:block;
+    font-size:10px;
+    font-weight:bold;
+    letter-spacing:1px;
+    margin-bottom:7px
+}
+
+input,select,textarea{
+    width:100%;
+    padding:13px;
+    border:1px solid #ccc;
+    background:#fff;
+    font:inherit;
+    outline:none
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical
+}
+
+button{
+    padding:14px 18px;
+    border:0;
+    background:#111;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer
+}
+
+button:hover{
+    background:#333
+}
+
+.preview-image{
+    width:100%;
+    height:438px;
+    background:#f3f3f3;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    margin-bottom:20px;
+}
+
+.preview-image img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:center;
+    display:block;
+}
+
+.placeholder{
+    font-size:12px;
+    font-weight:bold;
+    color:#999;
+    letter-spacing:1px
+}
+
+.preview-category{
+    font-size:10px;
+    font-weight:bold;
+    letter-spacing:1px;
+    color:#777
+}
+
+.preview-name{
+    font-size:24px;
+    font-weight:bold;
+    margin:7px 0
+}
+
+.preview-price{
+    font-weight:bold
+}
+
+.output{
+    margin-top:20px;
+    display:none
+}
+
+pre{
+    background:#111;
+    color:#fff;
+    padding:20px;
+    overflow:auto;
+    white-space:pre-wrap;
+    line-height:1.5
+}
+
+.note{
+    margin-top:12px;
+    padding:13px;
+    background:#efffb9;
+    font-size:12px;
+    line-height:1.5
+}
+
+@media(max-width:750px){
+    .grid{
+        grid-template-columns:1fr
+    }
+
+    form{
+        grid-template-columns:1fr
+    }
+
+    .full{
+        grid-column:auto
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← BACK TO STORE</a>
+
+<div class="grid">
+
+<div class="card">
+
+<h1>ADD PRODUCT</h1>
+
+<p class="intro">
+Enter the product information. The preview updates as you type, and the form generates a JSON object compatible with your current products.json.
+</p>
+
+<form id="productForm">
+
+<div>
+<label for="id">PRODUCT ID</label>
+<input id="id" type="number" min="1" required>
+</div>
+
+<div>
+<label for="name">PRODUCT NAME</label>
+<input id="name" type="text" placeholder="e.g. TechKeep Runner" required>
+</div>
+
+<div>
+<label for="category">CATEGORY</label>
+
+<select id="category" required>
+<option value="">Select category</option>
+<option value="Shoes">Shoes</option>
+<option value="Clothing">Clothing</option>
+<option value="Accessories">Accessories</option>
+</select>
+
+</div>
+
+<div>
+<label for="type">PRODUCT TYPE</label>
+
+<select id="type" required>
+<option value="">Select category first</option>
+</select>
+
+</div>
+
+<div>
+<label for="price">PRICE (₱)</label>
+<input id="price" type="number" min="0" required>
+</div>
+
+<div>
+<label for="sizes">SIZES</label>
+<input id="sizes" type="text" placeholder="7, 8, 9, 10, 11" required>
+</div>
+
+<div class="full">
+
+<label for="image">IMAGE URL</label>
+
+<input
+id="image"
+type="url"
+placeholder="https://example.com/product.jpg"
+>
+
+</div>
+
+<div class="full">
+
+<label for="localImage">OR LOCAL IMAGE PATH</label>
+
+<input
+id="localImage"
+type="text"
+placeholder="images/air-runner-04.jpg"
+>
+
+</div>
+
+<div class="full">
+
+<label for="description">DESCRIPTION</label>
+
+<textarea
+id="description"
+required
+placeholder="Short product description..."
+></textarea>
+
+</div>
+
+<div class="full">
+
+<button type="submit">
+GENERATE PRODUCT JSON →
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+
+<div class="card">
+
+<h2>LIVE PREVIEW</h2>
+
+<div class="preview-image" id="previewBox">
+<span class="placeholder">PRODUCT IMAGE</span>
+</div>
+
+<div class="preview-category" id="previewCategory">
+CATEGORY
+</div>
+
+<div class="preview-name" id="previewName">
+Product Name
+</div>
+
+<div class="preview-price" id="previewPrice">
+₱0
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card output" id="output">
+
+<h2>GENERATED JSON</h2>
+
+<pre id="jsonOutput"></pre>
+
+<div class="note">
+Copy this object into your <strong>products.json</strong> array.
+If it is not the last item, remember to keep a comma after the object.
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const ids = [
+    "id",
+    "name",
+    "category",
+    "type",
+    "price",
+    "image",
+    "localImage"
+];
+
+ids.forEach(id => {
+    document.getElementById(id).addEventListener("input", updatePreview);
+});
+
+
+document.getElementById("description").addEventListener(
+    "input",
+    updatePreview
+);
+
+
+const categorySelect = document.getElementById("category");
+const typeSelect = document.getElementById("type");
+
+
+const productTypes = {
+
+    Shoes: [
+        "Sneakers",
+        "Running Shoes",
+        "Basketball Shoes",
+        "Casual Shoes"
+    ],
+
+    Clothing: [
+        "T-Shirt",
+        "Hoodie",
+        "Jacket",
+        "Pants",
+        "Shorts"
+    ],
+
+    Accessories: [
+        "Cap",
+        "Bag",
+        "Socks",
+        "Belt",
+        "Wallet"
+    ]
+
+};
+
+
+categorySelect.addEventListener("change", function() {
+
+    const category = categorySelect.value;
+
+    typeSelect.innerHTML = "";
+
+    if (!category) {
+
+        typeSelect.innerHTML =
+            '<option value="">Select category first</option>';
+
+        updatePreview();
+
+        return;
+    }
+
+    typeSelect.innerHTML =
+        '<option value="">Select type</option>';
+
+    productTypes[category].forEach(function(type) {
+
+        const option = document.createElement("option");
+
+        option.value = type;
+        option.textContent = type;
+
+        typeSelect.appendChild(option);
+
+    });
+
+    updatePreview();
+
+});
+
+
+function getImage() {
+
+    const url =
+        document.getElementById("image").value.trim();
+
+    const local =
+        document.getElementById("localImage").value.trim();
+
+    return url || local;
+
+}
+
+
+function updatePreview() {
+
+    const image = getImage();
+
+    const box =
+        document.getElementById("previewBox");
+
+
+    document.getElementById("previewCategory").textContent =
+        document.getElementById("category").value || "CATEGORY";
+
+
+    document.getElementById("previewName").textContent =
+        document.getElementById("name").value || "Product Name";
+
+
+    const price =
+        Number(
+            document.getElementById("price").value || 0
+        );
+
+
+    document.getElementById("previewPrice").textContent =
+        "₱" + price.toLocaleString();
+
+
+    if (image) {
+
+        box.innerHTML = `
+            <img
+                src="${image}"
+                alt="Product preview"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='<span class="placeholder">IMAGE COULD NOT LOAD</span>';"
+            >
+        `;
+
+    } else {
+
+        box.innerHTML =
+            '<span class="placeholder">PRODUCT IMAGE</span>';
+
+    }
+
+}
+
+
+document
+.getElementById("productForm")
+.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+
+    const product = {
+
+        id: Number(
+            document.getElementById("id").value
+        ),
+
+        name:
+            document.getElementById("name").value.trim(),
+
+        category:
+            document.getElementById("category").value,
+
+        type:
+            document.getElementById("type").value,
+
+        price:
+            Number(
+                document.getElementById("price").value
+            ),
+
+        sizes:
+            document
+            .getElementById("sizes")
+            .value
+            .split(",")
+            .map(s => s.trim())
+            .filter(Boolean),
+
+        description:
+            document
+            .getElementById("description")
+            .value
+            .trim(),
+
+        image:
+            getImage()
+
+    };
+
+
+    document.getElementById("jsonOutput").textContent =
+        JSON.stringify(product, null, 4);
+
+
+    document.getElementById("output").style.display =
+        "block";
+
+});
+
+</script>
+
+</body>
+</html>

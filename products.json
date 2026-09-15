@@ -1,0 +1,66 @@
+[
+    {
+    "id": 1,
+    "name": "Im feeling silly shirt",
+    "category": "Clothing",
+    "type": "T-Shirt",
+    "price": 599,
+    "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+    ],
+    "description": "cat funny tshirt",
+    "image": "images/imfeelingsillyshirt.jpg"
+    },
+
+    {
+    "id": 2,
+    "name": "Nike \"???\"",
+    "category": "Shoes",
+    "type": "Casual Shoes",
+    "price": 4300,
+    "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+    ],
+    "description": "Authentic Niek Shoes",
+    "image": "images/niek.jpg"
+},
+
+    {
+    "id": 3,
+    "name": "Shoplifter Cap",
+    "category": "Accessories",
+    "type": "Cap",
+    "price": 399,
+    "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+    ],
+    "description": "Black Cap suitable for shoplifters",
+    "image": "images/shoplifter.jpg"
+},
+
+    {
+    "id": 4,
+    "name": "Cat Galaxy Pants",
+    "category": "Clothing",
+    "type": "Pants",
+    "price": 399,
+    "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+    ],
+    "description": "unisex galaxy cat pants",
+    "image": "images/catpants.jpg"
+    }
+
+]

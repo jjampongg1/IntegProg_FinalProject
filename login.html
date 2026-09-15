@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechKeep — Account</title>
+
+```
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f3f3ef;
+        color: #111;
+        min-height: 100vh;
+    }
+
+    .top-bar {
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #111;
+        color: #fff;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: 1.2px;
+    }
+
+    .header {
+        height: 78px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 5vw;
+        background: #fff;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .brand {
+        color: #111;
+        text-decoration: none;
+        font-size: 28px;
+        font-weight: 900;
+        letter-spacing: -2px;
+    }
+
+    .brand span {
+        font-size: 9px;
+        vertical-align: top;
+        margin-left: 2px;
+    }
+
+    .back-shop {
+        color: #111;
+        text-decoration: none;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 1px;
+    }
+
+    .back-shop:hover {
+        text-decoration: underline;
+    }
+
+    .account-page {
+        min-height: calc(100vh - 108px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 50px 20px;
+    }
+
+    .account-wrapper {
+        width: 100%;
+        max-width: 980px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        background: #fff;
+        border: 1px solid #ddd;
+    }
+
+    .account-intro {
+        min-height: 650px;
+        padding: 55px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background: #111;
+        color: #fff;
+    }
+
+    .intro-small {
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+    }
+
+    .intro-title {
+        max-width: 400px;
+        font-size: clamp(45px, 6vw, 75px);
+        line-height: .88;
+        letter-spacing: -4px;
+    }
+
+    .intro-text {
+        max-width: 350px;
+        color: #aaa;
+        font-size: 12px;
+        line-height: 1.7;
+    }
+
+    .intro-footer {
+        font-size: 9px;
+        color: #777;
+        letter-spacing: 1px;
+    }
+
+    .account-box {
+        padding: 55px 45px;
+    }
+
+    .account-title {
+        font-size: 34px;
+        letter-spacing: -2px;
+        margin-bottom: 8px;
+    }
+
+    .account-subtitle {
+        color: #777;
+        font-size: 12px;
+        line-height: 1.5;
+        margin-bottom: 30px;
+    }
+
+    .tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 28px;
+    }
+
+    .tab {
+        padding: 14px 5px;
+        border: 0;
+        border-bottom: 2px solid transparent;
+        background: transparent;
+        cursor: pointer;
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 1px;
+    }
+
+    .tab.active {
+        border-bottom-color: #111;
+    }
+
+    .form {
+        display: none;
+    }
+
+    .form.active {
+        display: block;
+    }
+
+    .field {
+        margin-bottom: 17px;
+    }
+
+    .field label {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 9px;
+        font-weight: 900;
+        letter-spacing: 1px;
+    }
+
+    .field input {
+        width: 100%;
+        height: 48px;
+        padding: 0 13px;
+        border: 1px solid #ccc;
+        background: #fff;
+        font-size: 13px;
+        outline: none;
+    }
+
+    .field input:focus {
+        border-color: #111;
+    }
+
+    .password-row {
+        position: relative;
+    }
+
+    .password-row input {
+        padding-right: 65px;
+    }
+
+    .show-password {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        font-size: 8px;
+        font-weight: 900;
+    }
+
+    .checkbox-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin: 10px 0 20px;
+        color: #666;
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+    .checkbox-row input {
+        margin-top: 2px;
+    }
+
+    .submit-button {
+        width: 100%;
+        height: 52px;
+        border: 0;
+        background: #111;
+        color: #fff;
+        cursor: pointer;
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 1.2px;
+    }
+
+    .submit-button:hover {
+        background: #333;
+    }
+
+    .message {
+        min-height: 20px;
+        margin-top: 12px;
+        font-size: 10px;
+        font-weight: 700;
+        line-height: 1.5;
+    }
+
+    .message.error {
+        color: #b00020;
+    }
+
+    .message.success {
+        color: #237000;
+    }
+
+    .logged-in {
+        display: none;
+    }
+
+    .logged-in.active {
+        display: block;
+    }
+
+    .account-welcome {
+        padding: 25px;
+        margin-bottom: 20px;
+        background: #f2f2ee;
+    }
+
+    .account-welcome-small {
+        font-size: 9px;
+        font-weight: 900;
+        letter-spacing: 1px;
+        color: #777;
+        margin-bottom: 8px;
+    }
+
+    .account-name {
+        font-size: 28px;
+        font-weight: 900;
+        letter-spacing: -1px;
+    }
+
+    .account-email {
+        margin-top: 5px;
+        color: #777;
+        font-size: 11px;
+    }
+
+    .account-actions {
+        display: grid;
+        gap: 10px;
+    }
+
+    .account-action {
+        width: 100%;
+        padding: 16px;
+        border: 1px solid #ccc;
+        background: #fff;
+        color: #111;
+        text-align: left;
+        text-decoration: none;
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 1px;
+    }
+
+    .account-action:hover {
+        background: #f5f5f2;
+    }
+
+    .logout-button {
+        margin-top: 10px;
+        width: 100%;
+        padding: 15px;
+        border: 0;
+        background: #111;
+        color: #fff;
+        cursor: pointer;
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 1px;
+    }
+
+    @media (max-width: 750px) {
+
+        .account-wrapper {
+            grid-template-columns: 1fr;
+        }
+
+        .account-intro {
+            min-height: 300px;
+            padding: 35px;
+        }
+
+        .intro-title {
+            font-size: 52px;
+        }
+
+        .account-box {
+            padding: 35px 25px;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<div class="top-bar">
+    FREE SHIPPING ON ORDERS OVER ₱3,000
+</div>
+
+<header class="header">
+
+    <a href="index.html" class="brand">
+        TechKeep<span>®</span>
+    </a>
+
+    <a href="index.html" class="back-shop">
+        ← BACK TO SHOP
+    </a>
+
+</header>
+
+
+<main class="account-page">
+
+    <div class="account-wrapper">
+
+        <section class="account-intro">
+
+            <div class="intro-small">
+                TechKeep / ACCOUNT
+            </div>
+
+            <h1 class="intro-title">
+                YOUR<br>
+                THREADS.<br>
+                YOUR<br>
+                ACCOUNT.
+            </h1>
+
+            <p class="intro-text">
+                Create your personal TechKeep account to keep
+                your information ready while you shop shoes,
+                clothing, and accessories.
+            </p>
+
+            <div class="intro-footer">
+                SHOES · CLOTHING · ACCESSORIES
+            </div>
+
+        </section>
+
+
+        <section class="account-box">
+
+            <div id="authArea">
+
+                <h2 class="account-title">
+                    WELCOME.
+                </h2>
+
+                <p class="account-subtitle">
+                    Sign in to your account or create a new one.
+                </p>
+
+
+                <div class="tabs">
+
+                    <button
+                        class="tab active"
+                        id="loginTab"
+                        type="button">
+                        LOG IN
+                    </button>
+
+                    <button
+                        class="tab"
+                        id="signupTab"
+                        type="button">
+                        SIGN UP
+                    </button>
+
+                </div>
+
+
+                <form
+                    class="form active"
+                    id="loginForm">
+
+                    <div class="field">
+
+                        <label for="loginEmail">
+                            EMAIL
+                        </label>
+
+                        <input
+                            type="email"
+                            id="loginEmail"
+                            placeholder="you@example.com"
+                            required>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="loginPassword">
+                            PASSWORD
+                        </label>
+
+                        <div class="password-row">
+
+                            <input
+                                type="password"
+                                id="loginPassword"
+                                placeholder="Enter your password"
+                                required>
+
+                            <button
+                                type="button"
+                                class="show-password"
+                                data-target="loginPassword">
+                                SHOW
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="submit-button">
+                        LOG IN →
+                    </button>
+
+                    <div
+                        class="message"
+                        id="loginMessage">
+                    </div>
+
+                </form>
+
+
+                <form
+                    class="form"
+                    id="signupForm">
+
+                    <div class="field">
+
+                        <label for="signupName">
+                            FULL NAME
+                        </label>
+
+                        <input
+                            type="text"
+                            id="signupName"
+                            placeholder="Your name"
+                            required>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="signupEmail">
+                            EMAIL
+                        </label>
+
+                        <input
+                            type="email"
+                            id="signupEmail"
+                            placeholder="you@example.com"
+                            required>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="signupPassword">
+                            PASSWORD
+                        </label>
+
+                        <div class="password-row">
+
+                            <input
+                                type="password"
+                                id="signupPassword"
+                                placeholder="Create a password"
+                                required>
+
+                            <button
+                                type="button"
+                                class="show-password"
+                                data-target="signupPassword">
+                                SHOW
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="signupConfirm">
+                            CONFIRM PASSWORD
+                        </label>
+
+                        <input
+                            type="password"
+                            id="signupConfirm"
+                            placeholder="Confirm your password"
+                            required>
+
+                    </div>
+
+
+                    <label class="checkbox-row">
+
+                        <input
+                            type="checkbox"
+                            id="terms"
+                            required>
+
+                        <span>
+                            I agree to the TechKeep terms and
+                            understand that this is a student
+                            project account system.
+                        </span>
+
+                    </label>
+
+
+                    <button
+                        type="submit"
+                        class="submit-button">
+                        CREATE ACCOUNT →
+                    </button>
+
+                    <div
+                        class="message"
+                        id="signupMessage">
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div
+                class="logged-in"
+                id="loggedInArea">
+
+                <h2 class="account-title">
+                    ACCOUNT.
+                </h2>
+
+                <p class="account-subtitle">
+                    You're currently signed in.
+                </p>
+
+
+                <div class="account-welcome">
+
+                    <div class="account-welcome-small">
+                        WELCOME BACK
+                    </div>
+
+                    <div
+                        class="account-name"
+                        id="accountName">
+                        User
+                    </div>
+
+                    <div
+                        class="account-email"
+                        id="accountEmail">
+                        user@example.com
+                    </div>
+
+                </div>
+
+
+                <div class="account-actions">
+
+                    <a
+                        href="index.html"
+                        class="account-action">
+                        CONTINUE SHOPPING →
+                    </a>
+
+                    <a
+                        href="index.html#products"
+                        class="account-action">
+                        VIEW PRODUCTS →
+                    </a>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="logout-button"
+                    id="logoutButton">
+                    LOG OUT
+                </button>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    function getUsers() {
+
+        const users =
+            localStorage.getItem("threadlineUsers");
+
+        return users
+            ? JSON.parse(users)
+            : [];
+
+    }
+
+
+    function saveUsers(users) {
+
+        localStorage.setItem(
+            "threadlineUsers",
+            JSON.stringify(users)
+        );
+
+    }
+
+
+    function getCurrentUser() {
+
+        const user =
+            localStorage.getItem("threadlineCurrentUser");
+
+        return user
+            ? JSON.parse(user)
+            : null;
+
+    }
+
+
+    function setCurrentUser(user) {
+
+        localStorage.setItem(
+            "threadlineCurrentUser",
+            JSON.stringify(user)
+        );
+
+    }
+
+
+    function removeCurrentUser() {
+
+        localStorage.removeItem(
+            "threadlineCurrentUser"
+        );
+
+    }
+
+
+    const loginTab =
+        document.getElementById("loginTab");
+
+    const signupTab =
+        document.getElementById("signupTab");
+
+    const loginForm =
+        document.getElementById("loginForm");
+
+    const signupForm =
+        document.getElementById("signupForm");
+
+
+    loginTab.addEventListener("click", () => {
+
+        loginTab.classList.add("active");
+        signupTab.classList.remove("active");
+
+        loginForm.classList.add("active");
+        signupForm.classList.remove("active");
+
+    });
+
+
+    signupTab.addEventListener("click", () => {
+
+        signupTab.classList.add("active");
+        loginTab.classList.remove("active");
+
+        signupForm.classList.add("active");
+        loginForm.classList.remove("active");
+
+    });
+
+
+    document
+        .querySelectorAll(".show-password")
+        .forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                const input =
+                    document.getElementById(
+                        button.dataset.target
+                    );
+
+                if (input.type === "password") {
+
+                    input.type = "text";
+                    button.textContent = "HIDE";
+
+                } else {
+
+                    input.type = "password";
+                    button.textContent = "SHOW";
+
+                }
+
+            });
+
+        });
+
+
+    signupForm.addEventListener(
+        "submit",
+        event => {
+
+            event.preventDefault();
+
+            const name =
+                document.getElementById(
+                    "signupName"
+                ).value.trim();
+
+            const email =
+                document.getElementById(
+                    "signupEmail"
+                ).value.trim().toLowerCase();
+
+            const password =
+                document.getElementById(
+                    "signupPassword"
+                ).value;
+
+            const confirmPassword =
+                document.getElementById(
+                    "signupConfirm"
+                ).value;
+
+            const message =
+                document.getElementById(
+                    "signupMessage"
+                );
+
+            message.className = "message";
+
+
+            if (password !== confirmPassword) {
+
+                message.textContent =
+                    "Passwords do not match.";
+
+                message.classList.add("error");
+
+                return;
+
+            }
+
+
+            if (password.length < 6) {
+
+                message.textContent =
+                    "Password must be at least 6 characters.";
+
+                message.classList.add("error");
+
+                return;
+
+            }
+
+
+            const users = getUsers();
+
+
+            const existingUser =
+                users.find(
+                    user =>
+                        user.email === email
+                );
+
+
+            if (existingUser) {
+
+                message.textContent =
+                    "An account with this email already exists.";
+
+                message.classList.add("error");
+
+                return;
+
+            }
+
+
+            const newUser = {
+
+                id: Date.now(),
+
+                name: name,
+
+                email: email,
+
+                password: password
+
+            };
+
+
+            users.push(newUser);
+
+            saveUsers(users);
+
+
+            setCurrentUser({
+
+                id: newUser.id,
+
+                name: newUser.name,
+
+                email: newUser.email
+
+            });
+
+
+            message.textContent =
+                "Account created successfully!";
+
+            message.classList.add("success");
+
+
+            setTimeout(() => {
+
+                showLoggedIn();
+
+            }, 600);
+
+        }
+    );
+
+
+    loginForm.addEventListener(
+        "submit",
+        event => {
+
+            event.preventDefault();
+
+            const email =
+                document.getElementById(
+                    "loginEmail"
+                ).value.trim().toLowerCase();
+
+            const password =
+                document.getElementById(
+                    "loginPassword"
+                ).value;
+
+            const message =
+                document.getElementById(
+                    "loginMessage"
+                );
+
+            message.className = "message";
+
+
+            const users = getUsers();
+
+
+            const user =
+                users.find(
+                    account =>
+                        account.email === email &&
+                        account.password === password
+                );
+
+
+            if (!user) {
+
+                message.textContent =
+                    "Incorrect email or password.";
+
+                message.classList.add("error");
+
+                return;
+
+            }
+
+
+            setCurrentUser({
+
+                id: user.id,
+
+                name: user.name,
+
+                email: user.email
+
+            });
+
+
+            message.textContent =
+                "Login successful!";
+
+            message.classList.add("success");
+
+
+            setTimeout(() => {
+
+                showLoggedIn();
+
+            }, 600);
+
+        }
+    );
+
+
+    function showLoggedIn() {
+
+        const user =
+            getCurrentUser();
+
+
+        if (!user) {
+            return;
+        }
+
+
+        document
+            .getElementById("authArea")
+            .style.display = "none";
+
+
+        document
+            .getElementById("loggedInArea")
+            .classList.add("active");
+
+
+        document
+            .getElementById("accountName")
+            .textContent = user.name;
+
+
+        document
+            .getElementById("accountEmail")
+            .textContent = user.email;
+
+    }
+
+
+    document
+        .getElementById("logoutButton")
+        .addEventListener(
+            "click",
+            () => {
+
+                removeCurrentUser();
+
+                location.reload();
+
+            }
+        );
+
+
+    if (getCurrentUser()) {
+
+        showLoggedIn();
+
+    }
+
+</script>
+```
+
+</body>
+</html>
