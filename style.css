@@ -847,8 +847,32 @@ form .primary {
     }
 }
 
-/* Product detail navigation */
 .product-card:focus-visible {
     outline: 2px solid var(--black);
     outline-offset: 3px;
+}
+
+.remove-cart-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: auto;
+    min-width: 80px;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid #111;
+    background: #fff;
+    color: #111;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.remove-cart-item:hover {
+    background: #111;
+    color: #fff;
 }
