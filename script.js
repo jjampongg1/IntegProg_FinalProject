@@ -144,22 +144,26 @@ class Cart
     // ENCAPSULATION!!!!!!!!!!
     #items = [];
 
-    addProduct(product)
-    {
-        const existingItem =
-            this.#items.find(
-                item =>
-                    item.product.id === product.id
-            );
+    static STORAGE_KEY = "techkeep_cart";
 
-        if (existingItem) {
-            existingItem.quantity++;
-        } else {
-            this.#items.push(
-                new CartItem(product)
-            );
-        }
+    addProduct(product)
+{
+    const existingItem =
+        this.#items.find(
+            item =>
+                item.product.id === product.id
+        );
+
+    if (existingItem) {
+        existingItem.quantity++;
+    } else {
+        this.#items.push(
+            new CartItem(product)
+        );
     }
+
+    this.saveCart();
+}
 
     updateQuantity(productId, change) {
         const item =
@@ -181,15 +185,79 @@ class Cart
                         item.product.id !== productId
                 );
         }
+        this.saveCart();
     }
 
-        removeProduct(productId) {
+    saveCart() {
+        const savedItems = this.#items.map(item => ({
+            productId: item.product.id,
+            quantity: item.quantity
+        }));
+
+        localStorage.setItem(
+            Cart.STORAGE_KEY,
+            JSON.stringify(savedItems)
+        );
+    }
+
+    restoreCart(products) {
+    const savedCart =
+        localStorage.getItem(Cart.STORAGE_KEY);
+
+    if (!savedCart) {
+        return;
+    }
+
+    try {
+        const savedItems =
+            JSON.parse(savedCart);
+
+        this.#items = [];
+
+        savedItems.forEach(savedItem => {
+            const product =
+                products.find(
+                    product =>
+                        product.id ===
+                        Number(savedItem.productId)
+                );
+
+            if (product) {
+                const quantity =
+                    Math.max(
+                        1,
+                        Number(savedItem.quantity) || 1
+                    );
+
+                this.#items.push(
+                    new CartItem(
+                        product,
+                        quantity
+                    )
+                );
+            }
+        });
+    } catch (error) {
+        console.error(
+            "Unable to restore cart:",
+            error
+        );
+
+        localStorage.removeItem(
+            Cart.STORAGE_KEY
+        );
+    }
+}
+
+    removeProduct(productId) {
     this.#items =
         this.#items.filter(
             item =>
                 item.product.id !== productId
         );
-    }
+
+    this.saveCart();
+}
 
     // Return a copy of the array
     // instead of exposing the private array
@@ -308,7 +376,11 @@ async function loadProducts()
         document.getElementById("loading")
             .style.display = "none";
 
+        cart.restoreCart(products);
+
         renderProducts(products);
+
+        renderCart();
 
         // If a product was added from product.html, use the existing
         // Cart.addProduct() method to place it in the cart.
