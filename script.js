@@ -183,6 +183,14 @@ class Cart
         }
     }
 
+        removeProduct(productId) {
+    this.#items =
+        this.#items.filter(
+            item =>
+                item.product.id !== productId
+        );
+    }
+
     // Return a copy of the array
     // instead of exposing the private array
     getItems() {
@@ -487,7 +495,7 @@ function renderCart()
                     <button
                         data-action="decrease"
                         data-id="${item.product.id}">
-                        −
+        −
                     </button>
 
                     ${item.quantity}
@@ -497,8 +505,15 @@ function renderCart()
                         data-id="${item.product.id}">
                         +
                     </button>
+
+                    <button
+                        class="remove-cart-item"
+                        data-action="remove"
+                        data-id="${item.product.id}">
+                        REMOVE
+                    </button>
                 </div>
-            `;
+                `;
 
             container.appendChild(row);
         });
@@ -593,16 +608,20 @@ document.getElementById("cartItems")
                 event.target.dataset.action;
 
             if (action === "increase") {
-                cart.updateQuantity(id, 1);
+            cart.updateQuantity(id, 1);
             }
 
             if (action === "decrease") {
-                cart.updateQuantity(id, -1);
+            cart.updateQuantity(id, -1);
             }
 
-            renderCart();
-        }
-    );
+            if (action === "remove") {
+            cart.removeProduct(id);
+            }
+
+        renderCart();
+            }
+        );
 
 document.getElementById("searchInput")
     .addEventListener(
